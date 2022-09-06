@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth2').Strategy
+const GitHubStrategy = require('passport-github2')
 const mongoose = require('mongoose')
 const User = require('../models/User')
 require('dotenv').config({path: '/.env'})
@@ -23,7 +24,32 @@ module.exports = function (passport) {
         return done(null, false, { msg: 'Invalid email or password.' })
       })
     })
-  }))
+  }));
+
+  passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "/auth/github/callback"
+  },
+  async function(accessToken, refreshToken, profile, done) {
+    const newUser = {
+      userName: profile.username,
+      thirdPartyID: profile.id,
+    }
+    try{
+      let user = await User.findOne( { email: profile.email });
+
+      if (user) {
+        done(null, user);
+      } else {
+        user = await User.create(newUser);
+        done(null, user);
+      }
+    } catch(err) {
+       console.log(err);
+    }
+  }
+));
 
   passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,
@@ -50,11 +76,11 @@ module.exports = function (passport) {
          console.log(err);
       }
     }));
-  
 
 
-  
-  
+
+
+
 
   passport.serializeUser((user, done) => {
     done(null, user.id)
