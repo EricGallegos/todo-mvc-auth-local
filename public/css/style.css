@@ -1,5 +1,34 @@
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
 h1{
-    color: red;
+    color: black;
+    padding: 0;
+    margin: 0;
+    font-size: 32px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: normal;
+
+}
+header a {
+    color: black;
+    text-decoration: none;
+    font-size: 32px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: turquoise;
+    border-radius: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.wrapper form {
+    padding-top: 20px;
+
 }
 .completed{
     text-decoration: line-through;
@@ -7,4 +36,20 @@ h1{
 }
 .not{
     text-decoration: underline;
+}
+.todo-backgrounds li { 
+    list-style: none;
+    margin-top: 15px;
+    border-radius: 15px;
+    padding: 10px;
+
+}
+.todo-backgrounds ul {
+    padding: 0px;
+}
+.todoItem {
+    background-color: white;
+}
+h2 {
+    padding-bottom: 20px;
 }
