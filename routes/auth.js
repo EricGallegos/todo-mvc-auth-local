@@ -9,4 +9,13 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
     res.redirect('/todos');
   })
 
+router.get('/github',
+  passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+router.get('/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/todos');
+  });
 module.exports = router
